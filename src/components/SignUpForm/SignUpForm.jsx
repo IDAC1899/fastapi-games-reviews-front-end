@@ -28,10 +28,14 @@ const SignUpForm = () => {
     evt.preventDefault();
 
     const payload = { username, email, password };
-    const user = await authService.signUp(payload)
-
-    setUser(user); // this line will print the form data to the console
-    navigate('/')
+    try {
+      const user = await authService.signUp(payload)
+      setUser(user);
+      navigate('/')
+    } catch (err) {
+      // show errors like "Username or email already exists"
+      setMessage(err.message);
+    }
   };
 
   const isFormInvalid = () => {
