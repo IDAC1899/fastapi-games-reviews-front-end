@@ -11,7 +11,7 @@ import * as reviewService from '../../services/reviewService';
 // Components
 import ReviewForm from '../ReviewForm/ReviewForm';
 
-export default function GameDetails({ handleDeleteGame }) {
+export default function GameDetails({ handleDeleteGame, refreshGames }) {
   const { gameId } = useParams();
   const [game, setGame] = useState(null);
 
@@ -36,6 +36,8 @@ export default function GameDetails({ handleDeleteGame }) {
   const handleAddReview = async (formData) => {
     const newReview = await reviewService.create(gameId, formData);
     setGame({ ...game, reviews: [...game.reviews, newReview] });
+    // keep the review count on the games list in sync
+    refreshGames();
   };
 
   const handleDeleteReview = async (reviewId) => {
@@ -44,6 +46,8 @@ export default function GameDetails({ handleDeleteGame }) {
       ...game,
       reviews: game.reviews.filter((review) => review.id !== reviewId),
     });
+    // keep the review count on the games list in sync
+    refreshGames();
   };
 
   if (!game) return <main>Loading ...</main>;

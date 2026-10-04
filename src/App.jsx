@@ -23,17 +23,20 @@ const App = () => {
   const [games, setGames] = useState([])
   const navigate = useNavigate()
 
-  useEffect(() => {
-    async function getAllGames() {
-      try {
-        const allGames = await gameService.index();
-        setGames(allGames)
-      } catch (error) {
-        console.log(error)
-      }
+  // also used by GameDetails so review counts stay up to date
+  const getAllGames = async () => {
+    try {
+      const allGames = await gameService.index();
+      setGames(allGames)
+    } catch (error) {
+      console.log(error)
     }
-    getAllGames()
-  }, [])
+  }
+
+  // fetch the games once someone is signed in
+  useEffect(() => {
+    if (user) getAllGames()
+  }, [user])
 
   const handleAddGame = async (formData) => {
     const newGame = await gameService.create(formData)
@@ -62,14 +65,14 @@ const App = () => {
     <>
       <NavBar />
       <Routes>
-        <Route path='/' element={user ? <Dashboard /> : <Landing/> } />
+        <Route path='/' element={user ? <Dashboard games={games} /> : <Landing/> } />
 
         {
           user ? (
             <>
               <Route path='/games' element={<GameList games={games}/>}/>
               <Route path='/games/new' element={<GameForm handleAddGame={handleAddGame}/>}/>
-              <Route path='/games/:gameId' element={<GameDetails handleDeleteGame={handleDeleteGame}/>}/>
+              <Route path='/games/:gameId' element={<GameDetails handleDeleteGame={handleDeleteGame} refreshGames={getAllGames}/>}/>
               <Route path='/games/:gameId/edit' element={<GameForm handleUpdateGame={handleUpdateGame}/>}/>
               <Route path='/games/:gameId/reviews/:reviewId/edit' element={<ReviewForm />}/>
             </>

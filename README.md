@@ -1,16 +1,36 @@
-# React + Vite
+# Game Reviews (Front End)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A React front end for the Game Reviews API. Users can add the games they play, rate them out of 10 and read what everyone else thinks.
 
-Currently, two official plugins are available:
+Back end repo: [fastapi-games-reviews](https://github.com/IDAC1899/fastapi-games-reviews)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Features
 
-## React Compiler
+- Sign up, sign in and sign out (JWT stored in localStorage)
+- Browse all games with their platform, genre and review count
+- Add a game, and edit or delete it if you added it
+- Write a review with a rating out of 10, and edit or delete your own reviews
+- Dashboard showing the games you've added
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Technologies Used
 
-## Expanding the ESLint configuration
+- React (Vite)
+- React Router
+- Context API for the signed-in user
+- Fetch API with service files for each resource
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Getting Started
+
+1. Install packages:
+```bash
+   npm install
+```
+2. Create a `.env` file in the root:
+```
+   VITE_BACK_END_SERVER_URL=http://localhost:8000/api
+```
+3. Make sure the back end is running, then start the app:
+```bash
+   npm run dev
+```
+4. Open http://localhost:5173. Seeded users all have the password `123`.

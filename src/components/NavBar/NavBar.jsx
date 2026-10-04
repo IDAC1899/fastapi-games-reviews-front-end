@@ -27,7 +27,8 @@ const NavBar = () => {
           </>
           :
           <>
-            <li><Link to="/">Dashboard</Link></li>
+            {/* signed out users land on the landing page, not the dashboard */}
+            <li><Link to="/">Home</Link></li>
             <li><Link to='/sign-up'>Sign Up</Link></li>
             <li><Link to='/sign-in'>Sign In</Link></li>
           </>

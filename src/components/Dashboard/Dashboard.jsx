@@ -1,30 +1,33 @@
-import { useContext, useEffect } from 'react';
+import { useContext } from 'react';
+import { Link } from 'react-router';
 
 import { UserContext } from '../../contexts/UserContext';
-import { currentUser } from '../../services/userService';
 
-const Dashboard = () => {
+const Dashboard = ({ games }) => {
   const { user } = useContext(UserContext);
 
-  useEffect(()=> {
-    async function getCurrentUser(){
-      try {
-        const signedInUser = await currentUser()
-        console.log(signedInUser)
-      } catch (error) {
-        console.log(error)
-      }
-    }
+  // the token stores the user's id as a string in "sub"
+  const currentUserId = Number(user.sub);
 
-    getCurrentUser()
-  }, [user])
+  // only the games this user added
+  const myGames = games.filter((game) => game.user.id === currentUserId);
 
   return (
     <main>
       <h1>Welcome, {user.username}</h1>
-      <p>
-        This is the dashboard page where you can see a list of all the users.
-      </p>
+      <h2>Games you've added</h2>
+      {!myGames.length && (
+        <p>
+          You haven't added any games yet. <Link to='/games/new'>Add one</Link>
+        </p>
+      )}
+      <ul>
+        {myGames.map((game) => (
+          <li key={game.id}>
+            <Link to={`/games/${game.id}`}>{game.name}</Link> · {game.reviews.length} reviews
+          </li>
+        ))}
+      </ul>
     </main>
   );
 };
